@@ -13,8 +13,15 @@ import {
 } from "../room/animations";
 import { handleRoomClick } from "../room/interactions";
 
-export default function Room({ envMap }: { envMap: THREE.Texture }) {
-  const { openModal, revealed } = useApp();
+export default function Room({
+  envMap,
+  screenRef,
+}: {
+  envMap: THREE.Texture;
+  /** Populated with the monitor mesh so the camera rig can frame it. */
+  screenRef?: React.RefObject<THREE.Object3D | null>;
+}) {
+  const { openModal, revealed, enterScreen } = useApp();
   const gltf = useDracoGLTF("/models/Room-v1.glb");
   const { onPointerMove, onPointerOut } = useHoverHandlers();
 
@@ -31,8 +38,11 @@ export default function Room({ envMap }: { envMap: THREE.Texture }) {
       glassMaterial,
       introRefs: introRefs.current,
       onChairTop: (mesh) => (chairTopRef.current = mesh),
+      onScreen: (mesh) => {
+        if (screenRef) screenRef.current = mesh;
+      },
     });
-  }, [gltf.scene, textures, glassMaterial]);
+  }, [gltf.scene, textures, glassMaterial, screenRef]);
 
   useChairWobble(chairTopRef);
   useIntroAnimation(introRefs, revealed);
@@ -47,7 +57,7 @@ export default function Room({ envMap }: { envMap: THREE.Texture }) {
       onPointerOut={onPointerOut}
       onClick={(e: ThreeEvent<MouseEvent>) => {
         e.stopPropagation();
-        handleRoomClick(e.object, openModal);
+        handleRoomClick(e.object, { openModal, enterScreen });
       }}
     />
   );

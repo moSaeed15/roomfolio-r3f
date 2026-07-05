@@ -66,9 +66,9 @@ export function useHoverHandlers() {
       playHover(obj as HoverMesh, true);
       hoveredRef.current = obj as HoverMesh;
     }
-    document.body.style.cursor = obj.name.includes("Pointer")
-      ? "pointer"
-      : "default";
+    // "Pointer"-tagged meshes and the clickable monitor get a pointer cursor.
+    const clickable = obj.name.includes("Pointer") || obj.name === "Screen";
+    document.body.style.cursor = clickable ? "pointer" : "default";
   };
 
   const onPointerOut = () => {

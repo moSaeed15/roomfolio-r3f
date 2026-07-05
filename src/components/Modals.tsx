@@ -2,11 +2,11 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useApp } from "../store";
 import type { ModalName } from "../store";
-import { ABOUT, PROJECTS, CONTACT_LINKS } from "../content";
+import { ABOUT, EXPERIENCE, CONTACT_LINKS } from "../content";
 
 const TITLES: Record<Exclude<ModalName, null>, string> = {
   about: "About Me",
-  work: "My Work",
+  work: "Work Experience",
   contact: "Get in Touch",
 };
 
@@ -108,55 +108,27 @@ function AboutBody() {
 
 function WorkBody() {
   return (
-    <div className="flex flex-col gap-4">
-      {PROJECTS.map((project) => (
-        <article
-          key={project.title}
-          className="rounded-xl border border-base-purple/20 bg-base-white/60 p-5"
-        >
-          <h2 className="text-xl text-base-black">{project.title}</h2>
-          <p className="mt-1 text-[15px] leading-relaxed text-base-black/80">
-            {project.description}
+    <ol className="flex flex-col gap-5 border-l-2 border-base-purple/25 pl-5">
+      {EXPERIENCE.map((job) => (
+        <li key={`${job.role}-${job.period}`} className="relative">
+          {/* Timeline node */}
+          <span className="absolute -left-6.5 top-1.5 h-3 w-3 rounded-full border-2 border-base-purple bg-modal-bg" />
+
+          <h2 className="text-xl text-base-black">
+            {job.role}
+            {job.company && (
+              <span className="text-base-purple"> — {job.company}</span>
+            )}
+          </h2>
+          <p className="mt-0.5 text-sm text-base-purple">
+            {job.period} · {job.location}
           </p>
-
-          <div className="mt-3 flex flex-wrap items-center gap-2">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="rounded-md bg-base-purple/10 px-2 py-0.5 text-xs text-base-purple"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          {(project.live || project.github) && (
-            <div className="mt-4 flex flex-wrap gap-2">
-              {project.live && (
-                <a
-                  href={project.live}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="rounded-lg bg-base-purple px-4 py-2 text-sm text-base-white transition-opacity hover:opacity-85"
-                >
-                  Live site →
-                </a>
-              )}
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="rounded-lg border border-base-purple px-4 py-2 text-sm text-base-purple transition-colors hover:bg-base-purple/5"
-                >
-                  GitHub
-                </a>
-              )}
-            </div>
-          )}
-        </article>
+          <p className="mt-2 text-[15px] leading-relaxed text-base-black/80">
+            {job.description}
+          </p>
+        </li>
       ))}
-    </div>
+    </ol>
   );
 }
 

@@ -15,6 +15,11 @@ export interface AppStore {
   /** Bumped when the user clicks "Enter!" to trigger the intro animation. */
   revealed: boolean;
   reveal: () => void;
+
+  /** True while the camera is flown into the monitor showing the projects. */
+  focusScreen: boolean;
+  enterScreen: () => void;
+  exitScreen: () => void;
 }
 
 export const AppContext = createContext<AppStore | null>(null);

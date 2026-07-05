@@ -15,6 +15,7 @@ export default function App() {
   const [modal, setModal] = useState<ModalName>(null);
   const [loaded, setLoaded] = useState(false);
   const [revealed, setRevealed] = useState(false);
+  const [focusScreen, setFocusScreen] = useState(false);
 
   const store = useMemo<AppStore>(
     () => ({
@@ -25,8 +26,11 @@ export default function App() {
       setLoaded,
       revealed,
       reveal: () => setRevealed(true),
+      focusScreen,
+      enterScreen: () => setFocusScreen(true),
+      exitScreen: () => setFocusScreen(false),
     }),
-    [modal, loaded, revealed],
+    [modal, loaded, revealed, focusScreen],
   );
 
   const handleReady = useCallback(() => setLoaded(true), []);

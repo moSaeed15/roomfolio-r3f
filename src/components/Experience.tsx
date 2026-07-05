@@ -1,14 +1,18 @@
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useRef, type ElementRef } from "react";
 import { useThree, useLoader } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 import { useApp } from "../store";
 import Room from "./Room";
 import Roses from "./Roses";
+import CameraRig from "./CameraRig";
+import ScreenHtml from "./ScreenHtml";
 
 export default function Experience() {
-  const { modal } = useApp();
+  const { modal, focusScreen } = useApp();
   const store = useThree((s) => s.get);
+  const controlsRef = useRef<ElementRef<typeof OrbitControls>>(null);
+  const screenRef = useRef<THREE.Object3D | null>(null);
 
   // Skybox cube map, also used as the scene environment.
   const envMap = useLoader(THREE.CubeTextureLoader, [
@@ -31,7 +35,8 @@ export default function Experience() {
   return (
     <>
       <OrbitControls
-        enabled={!modal}
+        ref={controlsRef}
+        enabled={!modal && !focusScreen}
         enableDamping
         dampingFactor={0.05}
         minDistance={2}
@@ -42,8 +47,10 @@ export default function Experience() {
         maxAzimuthAngle={Math.PI / 2}
         target={[-0.19, 1.1, 0.0173]}
       />
-      <Room envMap={envMap} />
+      <CameraRig controlsRef={controlsRef} screenRef={screenRef} />
+      <Room envMap={envMap} screenRef={screenRef} />
       <Roses />
+      <ScreenHtml />
     </>
   );
 }

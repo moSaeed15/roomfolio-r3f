@@ -13,6 +13,8 @@ interface SetupArgs {
   introRefs: IntroRefs;
   /** Set to the chair-top mesh so the wobble loop can drive it. */
   onChairTop: (mesh: THREE.Object3D) => void;
+  /** Set to the monitor mesh so the camera rig can frame it. */
+  onScreen?: (mesh: THREE.Object3D) => void;
 }
 
 /**
@@ -31,6 +33,7 @@ export function setupRoomScene({
   glassMaterial,
   introRefs,
   onChairTop,
+  onScreen,
 }: SetupArgs) {
   if (scene.userData.roomSetupDone) return;
   scene.userData.roomSetupDone = true;
@@ -39,6 +42,8 @@ export function setupRoomScene({
     const mesh = child as THREE.Mesh;
     if (!mesh.isMesh) return;
     const { name } = mesh;
+
+    if (name === "Screen") onScreen?.(mesh);
 
     if (name.includes("Glass")) {
       mesh.material = glassMaterial;

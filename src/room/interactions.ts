@@ -1,14 +1,12 @@
 import type * as THREE from "three";
 import { SOCIAL_LINKS, type ModalName } from "../store";
 
-/** Mesh-name fragment -> modal it opens. */
 const MODAL_TRIGGERS: Record<string, Exclude<ModalName, null>> = {
   Work_Button: "work",
   About_Button: "about",
   Contact_Button: "contact",
 };
 
-/** Open an external link in a new, opener-less tab. */
 function openExternal(url: string) {
   const win = window.open();
   if (win) {
@@ -17,14 +15,14 @@ function openExternal(url: string) {
   }
 }
 
-/**
- * Resolve a click on a scene object to its side effect: open a social link or
- * a modal, based on the mesh name. Returns without doing anything if the mesh
- * isn't interactive.
- */
+interface ClickHandlers {
+  openModal: (name: Exclude<ModalName, null>) => void;
+  enterScreen: () => void;
+}
+
 export function handleRoomClick(
   object: THREE.Object3D,
-  openModal: (name: Exclude<ModalName, null>) => void,
+  { openModal, enterScreen }: ClickHandlers,
 ) {
   const { name } = object;
 
@@ -33,6 +31,12 @@ export function handleRoomClick(
       openExternal(url);
       return;
     }
+  }
+
+  // Monitor and Portfolio icon both open the projects slideshow.
+  if (name === "Screen" || name.includes("Portfolio")) {
+    enterScreen();
+    return;
   }
 
   for (const [fragment, modal] of Object.entries(MODAL_TRIGGERS)) {
