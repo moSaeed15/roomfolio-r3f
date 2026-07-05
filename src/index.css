@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Stylish Calligraphy Demo";
+  src: url("/fonts/StylishCalligraphyDemo.woff2") format("woff2"),
+    url("/fonts/StylishCalligraphyDemo.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sacrifice Demo";
+  src: url("/fonts/SacrificeDemo.woff2") format("woff2"),
+    url("/fonts/SacrificeDemo.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Shifty Notes";
+  src: url("/fonts/ShiftyNotes-Regular.woff2") format("woff2"),
+    url("/fonts/ShiftyNotes-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Motley Forces";
+  src: url("/fonts/MotleyForces-Regular.woff2") format("woff2"),
+    url("/fonts/MotleyForces-Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-motley: "Motley Forces", system-ui, sans-serif;
+  --color-base-purple: #6e5e9c;
+  --color-base-black: #353535;
+  --color-base-white: #fdfdfd;
+  --color-modal-bg: #e3e3e8;
+}
+
+* {
+  font-family: "Motley Forces", system-ui, sans-serif;
+}
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#experience-canvas {
+  touch-action: none;
+}

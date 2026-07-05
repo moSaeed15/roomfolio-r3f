@@ -1,0 +1,31 @@
+import { createContext, useContext } from "react";
+
+export type ModalName = "work" | "about" | "contact" | null;
+
+export interface AppStore {
+  /** Which modal is currently open (null = none). */
+  modal: ModalName;
+  openModal: (name: Exclude<ModalName, null>) => void;
+  closeModal: () => void;
+
+  /** True once all assets have finished loading. */
+  loaded: boolean;
+  setLoaded: (v: boolean) => void;
+
+  /** Bumped when the user clicks "Enter!" to trigger the intro animation. */
+  revealed: boolean;
+  reveal: () => void;
+}
+
+export const AppContext = createContext<AppStore | null>(null);
+
+export function useApp(): AppStore {
+  const ctx = useContext(AppContext);
+  if (!ctx) throw new Error("useApp must be used within <AppContext.Provider>");
+  return ctx;
+}
+
+export const SOCIAL_LINKS: Record<string, string> = {
+  Linkedin: "https://www.linkedin.com/in/mohammed-el-saeed/",
+  GitHub: "https://github.com/moSaeed15",
+};
