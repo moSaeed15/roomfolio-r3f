@@ -80,6 +80,7 @@ export const PROJECTS: Project[] = [
     description:
       'A data dashboard built from scratch covering authentication, real-time data handling, and a fully custom UI designed in Figma and implemented pixel-perfect in code.',
     tags: ['Next.js', 'TypeScript', 'Firebase', 'Tailwind CSS'],
+    live: 'https://cogniverse-rho.vercel.app/',
   },
   {
     title: 'Audiophile',

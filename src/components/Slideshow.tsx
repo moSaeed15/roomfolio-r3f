@@ -44,10 +44,10 @@ function Deck() {
   const project = PROJECTS[index];
 
   return (
-    <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-lg bg-modal-bg p-9.5 text-base-black">
+    <div className="flex h-full w-full items-center justify-center overflow-hidden rounded-lg bg-modal-bg/80 p-9.5 text-base-black backdrop-blur-sm">
       <div ref={cardRef} className="flex h-full w-full flex-col">
         <div className="mb-2 flex items-center justify-between">
-          <span className="text-[22px] text-base-purple">
+          <span className="text-[22px] text-base-black/70">
             Project {index + 1} / {count}
           </span>
           <span className="flex gap-2.5">
@@ -58,7 +58,7 @@ function Deck() {
                 onClick={() => setIndex(i)}
                 className={
                   'h-4 w-4 cursor-pointer rounded-full transition-colors ' +
-                  (i === index ? 'bg-base-purple' : 'bg-base-purple/30')
+                  (i === index ? 'bg-base-purple' : 'bg-base-black/25')
                 }
               />
             ))}
@@ -73,7 +73,7 @@ function Deck() {
           {project.tags.map(tag => (
             <span
               key={tag}
-              className="rounded-md bg-base-purple/10 px-3 py-1 text-[19px] text-base-purple"
+              className="rounded-md bg-base-purple/15 px-3 py-1 text-[19px] text-base-purple"
             >
               {tag}
             </span>
@@ -112,7 +112,7 @@ function Deck() {
         <div className="mt-auto flex items-center justify-between pt-4">
           <button
             onClick={prev}
-            className="cursor-pointer rounded-lg px-4 py-2 text-[24px] text-base-purple transition-colors hover:bg-base-purple/10"
+            className="cursor-pointer rounded-lg px-4 py-2 text-[24px] text-base-black transition-colors hover:bg-base-black/5"
           >
             ‹ Prev
           </button>
@@ -124,7 +124,7 @@ function Deck() {
           </button>
           <button
             onClick={next}
-            className="cursor-pointer rounded-lg px-4 py-2 text-[24px] text-base-purple transition-colors hover:bg-base-purple/10"
+            className="cursor-pointer rounded-lg px-4 py-2 text-[24px] text-base-black transition-colors hover:bg-base-black/5"
           >
             Next ›
           </button>
