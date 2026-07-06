@@ -3,7 +3,6 @@ import SpeechBubble from './SpeechBubble';
 
 const QUIPS = [
   'Fuel ☕',
-  'Still warm... probably.',
   'Powered by caffeine.',
   'One more cup, one more feature.',
 ];

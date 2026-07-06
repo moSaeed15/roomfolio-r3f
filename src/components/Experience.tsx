@@ -9,6 +9,7 @@ import CameraRig from "./CameraRig";
 import ScreenHtml from "./ScreenHtml";
 import BmoBubble from "./BmoBubble";
 import MugBubble from "./MugBubble";
+import CoffeeSteam from "./CoffeeSteam";
 
 export default function Experience() {
   const { modal, focusScreen } = useApp();
@@ -55,6 +56,7 @@ export default function Experience() {
       <ScreenHtml />
       <BmoBubble />
       <MugBubble />
+      <CoffeeSteam />
     </>
   );
 }
