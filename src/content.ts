@@ -81,12 +81,14 @@ export const PROJECTS: Project[] = [
       'A data dashboard built from scratch covering authentication, real-time data handling, and a fully custom UI designed in Figma and implemented pixel-perfect in code.',
     tags: ['Next.js', 'TypeScript', 'Firebase', 'Tailwind CSS'],
     live: 'https://cogniverse-rho.vercel.app/',
+    github: 'https://github.com/moSaeed15/cogniverse',
   },
   {
     title: 'Audiophile',
     description:
       'A multi-page e-commerce site for a premium audio brand, built entirely in vanilla JavaScript with no frameworks — demonstrating solid fundamentals in DOM manipulation, responsive layout, and component structure.',
     tags: ['HTML', 'CSS', 'JavaScript'],
+    github: 'https://github.com/moSaeed15/audiophile',
   },
 ];
 
