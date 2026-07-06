@@ -4,6 +4,7 @@ import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { useApp } from '../store';
+import { fitFactor } from '../useResponsiveView';
 
 export type OrbitControlsRef = NonNullable<ElementRef<typeof OrbitControls>>;
 
@@ -19,6 +20,7 @@ interface Props {
 export default function CameraRig({ controlsRef, screenRef }: Props) {
   const { focusScreen } = useApp();
   const camera = useThree(s => s.camera);
+  const getState = useThree(s => s.get);
   const home = useRef<{ pos: THREE.Vector3; target: THREE.Vector3 } | null>(
     null,
   );
@@ -43,14 +45,20 @@ export default function CameraRig({ controlsRef, screenRef }: Props) {
         .normalize();
       if (normal.dot(camera.position.clone().sub(center)) < 0) normal.negate();
 
-      const camPos = center.clone().addScaledVector(normal, VIEW_DISTANCE);
+      // Pull further back on narrow / portrait screens so the pinned card
+      // isn't cropped by the viewport. Dampened slightly so the card lands a
+      // touch closer than a full fit.
+      const { width, height } = getState().size;
+      const portraitPullback = 1 + (fitFactor(width / height) - 1) * 0.82;
+      const distance = VIEW_DISTANCE * portraitPullback;
+      const camPos = center.clone().addScaledVector(normal, distance);
       flyTo(camera, controls, camPos, center);
     } else if (home.current) {
       flyTo(camera, controls, home.current.pos, home.current.target, () => {
         controls.enabled = true;
       });
     }
-  }, [focusScreen, camera, controlsRef, screenRef]);
+  }, [focusScreen, camera, getState, controlsRef, screenRef]);
 
   return null;
 }
