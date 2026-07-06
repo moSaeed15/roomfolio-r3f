@@ -21,6 +21,10 @@ export interface AppStore {
   enterScreen: () => void;
   exitScreen: () => void;
 
+  /** True once the user has clicked anything in the room (first interaction). */
+  explored: boolean;
+  markExplored: () => void;
+
   /** Room light state, toggled by clicking the lamp. */
   lightsOn: boolean;
   toggleLights: () => void;

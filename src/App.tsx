@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber';
 import Experience from './components/Experience';
 import LoadingScreen from './components/LoadingScreen';
 import Modals from './components/Modals';
+import ExploreHint from './components/ExploreHint';
 import { AppContext, type ModalName, type AppStore } from './store';
 
 /** Rendered inside <Suspense>; flips `loaded` true once assets have resolved. */
@@ -17,6 +18,7 @@ export default function App() {
   const [revealed, setRevealed] = useState(false);
   const [focusScreen, setFocusScreen] = useState(false);
   const [lightsOn, setLightsOn] = useState(true);
+  const [explored, setExplored] = useState(false);
   const [bmoGreeting, setBmoGreeting] = useState(-1);
   const [mugQuip, setMugQuip] = useState(-1);
 
@@ -32,6 +34,8 @@ export default function App() {
       focusScreen,
       enterScreen: () => setFocusScreen(true),
       exitScreen: () => setFocusScreen(false),
+      explored,
+      markExplored: () => setExplored(true),
       lightsOn,
       toggleLights: () => setLightsOn(v => !v),
       bmoGreeting,
@@ -39,7 +43,16 @@ export default function App() {
       mugQuip,
       nextMugQuip: () => setMugQuip(i => i + 1),
     }),
-    [modal, loaded, revealed, focusScreen, lightsOn, bmoGreeting, mugQuip],
+    [
+      modal,
+      loaded,
+      revealed,
+      focusScreen,
+      explored,
+      lightsOn,
+      bmoGreeting,
+      mugQuip,
+    ],
   );
 
   const handleReady = useCallback(() => setLoaded(true), []);
@@ -66,6 +79,7 @@ export default function App() {
       </div>
 
       <Modals />
+      <ExploreHint />
       <LoadingScreen />
     </AppContext.Provider>
   );

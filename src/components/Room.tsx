@@ -29,6 +29,7 @@ export default function Room({
     toggleLights,
     nextBmoGreeting,
     nextMugQuip,
+    markExplored,
     lightsOn,
   } = useApp();
   const gltf = useDracoGLTF("/models/Room-v1.glb");
@@ -67,6 +68,7 @@ export default function Room({
       onPointerOut={onPointerOut}
       onClick={(e: ThreeEvent<MouseEvent>) => {
         e.stopPropagation();
+        markExplored();
         handleRoomClick(e.object, {
           openModal,
           enterScreen,
