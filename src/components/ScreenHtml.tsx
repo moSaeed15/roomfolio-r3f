@@ -1,5 +1,6 @@
 import { Html } from '@react-three/drei';
 import { AppContext, useApp } from '../store';
+import { useFitDistanceFactor } from '../useResponsiveView';
 import Slideshow from './Slideshow';
 
 const SCREEN = {
@@ -22,6 +23,7 @@ const LABEL_POSITION: [number, number, number] = [
 export default function ScreenHtml() {
   const store = useApp();
   const { focusScreen, revealed, enterScreen, lightsOn } = store;
+  const labelDistance = useFitDistanceFactor(2);
 
   return (
     <>
@@ -29,7 +31,7 @@ export default function ScreenHtml() {
         <Html
           position={LABEL_POSITION}
           center
-          distanceFactor={2}
+          distanceFactor={labelDistance}
           occlude={false}
         >
           <button

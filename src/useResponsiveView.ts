@@ -17,3 +17,16 @@ export function fitFactor(aspect: number): number {
 export function useAspect(): number {
   return useThree(s => s.size.width / s.size.height);
 }
+
+/**
+ * A drei `<Html distanceFactor>` adjusted for the current viewport. Because the
+ * camera pulls back on narrow / portrait screens (see {@link fitFactor}), a
+ * fixed distanceFactor would make world-anchored labels shrink and drift out of
+ * frame. Scaling the factor by the same fit keeps labels a consistent on-screen
+ * size and inside the viewport. Larger distanceFactor => smaller label, so we
+ * multiply — the label appears "closer" to compensate for the pulled-back camera.
+ */
+export function useFitDistanceFactor(base: number): number {
+  const aspect = useThree(s => s.size.width / s.size.height);
+  return base * fitFactor(aspect);
+}

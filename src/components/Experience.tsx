@@ -18,6 +18,11 @@ import CoffeeSteam from "./CoffeeSteam";
 const HOME_TARGET = new THREE.Vector3(-0.19, 1.1, 0.0173);
 const HOME_POSITION = new THREE.Vector3(2.8, 4.3, 2);
 
+// The My Work / About / Contact signs live high on the +z side of the room
+// (world ~z 1.39, y up to 1.95). On a narrow / portrait viewport the tighter
+// horizontal frame clips them, so we pan the look-at toward them a touch.
+const SIGN_ANCHOR = new THREE.Vector3(-0.19, 1.45, 0.9);
+
 export default function Experience() {
   const { modal, focusScreen } = useApp();
   const store = useThree((s) => s.get);
@@ -31,6 +36,13 @@ export default function Experience() {
   useLayoutEffect(() => {
     if (focusScreen) return;
     const factor = fitFactor(size.width / size.height);
+    // How portrait we are, 0 (wide) .. 1 (very tall). Reuses fitFactor's ramp.
+    const portrait = THREE.MathUtils.clamp((factor - 1) / 0.55, 0, 1);
+
+    // Pan the look-at toward the wall signs as the screen gets more portrait,
+    // so they don't fall outside the narrower horizontal frame.
+    const target = HOME_TARGET.clone().lerp(SIGN_ANCHOR, portrait);
+
     const offset = HOME_POSITION.clone().sub(HOME_TARGET);
     // Pull back mostly in the horizontal plane so the camera doesn't climb
     // and start looking straight down on narrow screens.
@@ -38,10 +50,13 @@ export default function Experience() {
     offset.z *= factor;
     offset.y *= 1 + (factor - 1) * 0.25;
     const cam = store().camera;
-    cam.position.copy(HOME_TARGET).add(offset);
-    cam.lookAt(HOME_TARGET);
+    cam.position.copy(target).add(offset);
+    cam.lookAt(target);
     const controls = controlsRef.current;
-    if (controls) controls.update();
+    if (controls) {
+      controls.target.copy(target);
+      controls.update();
+    }
   }, [store, size, focusScreen]);
 
   // Skybox cube map, also used as the scene environment.

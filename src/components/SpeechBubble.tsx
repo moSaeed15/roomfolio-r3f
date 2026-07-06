@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Html } from '@react-three/drei';
 import gsap from 'gsap';
 import { useApp } from '../store';
+import { useFitDistanceFactor } from '../useResponsiveView';
 
 const VISIBLE_MS = 3200;
 
@@ -18,6 +19,7 @@ export default function SpeechBubble({ message, position }: SpeechBubbleProps) {
   const { lightsOn } = useApp();
   const ref = useRef<HTMLDivElement>(null);
   const [dismissed, setDismissed] = useState(false);
+  const distance = useFitDistanceFactor(2);
 
   useEffect(() => {
     const timer = window.setTimeout(() => setDismissed(true), VISIBLE_MS);
@@ -39,7 +41,7 @@ export default function SpeechBubble({ message, position }: SpeechBubbleProps) {
   if (dismissed) return null;
 
   return (
-    <Html position={position} center distanceFactor={2} occlude={false}>
+    <Html position={position} center distanceFactor={distance} occlude={false}>
       <div
         ref={ref}
         style={{ filter: lightsOn ? undefined : 'brightness(0.5)' }}
