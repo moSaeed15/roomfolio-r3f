@@ -1,4 +1,4 @@
-import { useEffect, useRef, type ElementRef } from 'react';
+import { useEffect, useRef, type ComponentRef } from 'react';
 import { useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
@@ -6,7 +6,7 @@ import gsap from 'gsap';
 import { useApp } from '../store';
 import { fitFactor } from '../useResponsiveView';
 
-export type OrbitControlsRef = NonNullable<ElementRef<typeof OrbitControls>>;
+export type OrbitControlsRef = NonNullable<ComponentRef<typeof OrbitControls>>;
 
 const VIEW_DISTANCE = 0.62;
 const FLY_DURATION = 1.4;
