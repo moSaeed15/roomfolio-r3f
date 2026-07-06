@@ -1,9 +1,9 @@
-import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
-import { Canvas } from "@react-three/fiber";
-import Experience from "./components/Experience";
-import LoadingScreen from "./components/LoadingScreen";
-import Modals from "./components/Modals";
-import { AppContext, type ModalName, type AppStore } from "./store";
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import { Canvas } from '@react-three/fiber';
+import Experience from './components/Experience';
+import LoadingScreen from './components/LoadingScreen';
+import Modals from './components/Modals';
+import { AppContext, type ModalName, type AppStore } from './store';
 
 /** Rendered inside <Suspense>; flips `loaded` true once assets have resolved. */
 function AssetsReady({ onReady }: { onReady: () => void }) {
@@ -16,11 +16,14 @@ export default function App() {
   const [loaded, setLoaded] = useState(false);
   const [revealed, setRevealed] = useState(false);
   const [focusScreen, setFocusScreen] = useState(false);
+  const [lightsOn, setLightsOn] = useState(true);
+  const [bmoGreeting, setBmoGreeting] = useState(-1);
+  const [mugQuip, setMugQuip] = useState(-1);
 
   const store = useMemo<AppStore>(
     () => ({
       modal,
-      openModal: (name) => setModal(name),
+      openModal: name => setModal(name),
       closeModal: () => setModal(null),
       loaded,
       setLoaded,
@@ -29,21 +32,27 @@ export default function App() {
       focusScreen,
       enterScreen: () => setFocusScreen(true),
       exitScreen: () => setFocusScreen(false),
+      lightsOn,
+      toggleLights: () => setLightsOn(v => !v),
+      bmoGreeting,
+      nextBmoGreeting: () => setBmoGreeting(i => i + 1),
+      mugQuip,
+      nextMugQuip: () => setMugQuip(i => i + 1),
     }),
-    [modal, loaded, revealed, focusScreen],
+    [modal, loaded, revealed, focusScreen, lightsOn, bmoGreeting, mugQuip],
   );
 
   const handleReady = useCallback(() => setLoaded(true), []);
 
   return (
     <AppContext.Provider value={store}>
-      <div id="experience" className="fixed inset-0 h-full w-full overflow-hidden">
+      <div
+        id="experience"
+        className="fixed inset-0 h-full w-full overflow-hidden"
+      >
         <Canvas
           id="experience-canvas"
           className="h-full w-full"
-          // `flat` sets NoToneMapping to match the original raw WebGLRenderer.
-          // R3F otherwise defaults to ACESFilmicToneMapping, which remaps the
-          // baked lighting/shadow colors and makes the scene look different.
           flat
           dpr={[1, 2]}
           gl={{ antialias: true }}

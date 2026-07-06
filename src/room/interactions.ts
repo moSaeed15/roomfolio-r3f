@@ -18,11 +18,20 @@ function openExternal(url: string) {
 interface ClickHandlers {
   openModal: (name: Exclude<ModalName, null>) => void;
   enterScreen: () => void;
+  toggleLights: () => void;
+  nextBmoGreeting: () => void;
+  nextMugQuip: () => void;
 }
 
 export function handleRoomClick(
   object: THREE.Object3D,
-  { openModal, enterScreen }: ClickHandlers,
+  {
+    openModal,
+    enterScreen,
+    toggleLights,
+    nextBmoGreeting,
+    nextMugQuip,
+  }: ClickHandlers,
 ) {
   const { name } = object;
 
@@ -36,6 +45,21 @@ export function handleRoomClick(
   // Monitor and Portfolio icon both open the projects slideshow.
   if (name === "Screen" || name.includes("Portfolio")) {
     enterScreen();
+    return;
+  }
+
+  if (name.includes("Lamp")) {
+    toggleLights();
+    return;
+  }
+
+  if (name.includes("BMO")) {
+    nextBmoGreeting();
+    return;
+  }
+
+  if (name.includes("Coffee_Mug")) {
+    nextMugQuip();
     return;
   }
 

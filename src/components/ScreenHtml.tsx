@@ -9,7 +9,8 @@ const SCREEN = {
   height: 0.3051 * 0.5,
 };
 
-const CARD_PX_WIDTH = 900;
+const CARD_PX_WIDTH = 860;
+const CARD_PX_HEIGHT = 525;
 const SCREEN_SCALE = 0.012;
 
 const LABEL_POSITION: [number, number, number] = [
@@ -20,9 +21,7 @@ const LABEL_POSITION: [number, number, number] = [
 
 export default function ScreenHtml() {
   const store = useApp();
-  const { focusScreen, revealed, enterScreen } = store;
-
-  const cardPxHeight = (SCREEN.height / SCREEN.width) * CARD_PX_WIDTH;
+  const { focusScreen, revealed, enterScreen, lightsOn } = store;
 
   return (
     <>
@@ -35,7 +34,8 @@ export default function ScreenHtml() {
         >
           <button
             onClick={enterScreen}
-            className="animate-bounce cursor-pointer whitespace-nowrap rounded-full border-2 border-base-purple bg-modal-bg/90 px-3 py-1.5 text-sm text-base-purple shadow-[0_4px_14px_rgba(0,0,0,0.25)] backdrop-blur transition-transform hover:scale-105"
+            style={{ filter: lightsOn ? undefined : 'brightness(0.5)' }}
+            className="animate-bounce cursor-pointer whitespace-nowrap rounded-full border-2 border-base-purple bg-modal-bg/90 px-3 py-1.5 text-sm text-base-purple shadow-[0_4px_14px_rgba(0,0,0,0.25)] backdrop-blur transition-[filter,transform] duration-500 hover:scale-105"
           >
             Projects ↓
           </button>
@@ -55,7 +55,7 @@ export default function ScreenHtml() {
             <div
               style={{
                 width: `${CARD_PX_WIDTH}px`,
-                height: `${cardPxHeight}px`,
+                height: `${CARD_PX_HEIGHT}px`,
                 pointerEvents: 'auto',
               }}
             >

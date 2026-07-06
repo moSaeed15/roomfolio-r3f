@@ -7,6 +7,8 @@ import Room from "./Room";
 import Roses from "./Roses";
 import CameraRig from "./CameraRig";
 import ScreenHtml from "./ScreenHtml";
+import BmoBubble from "./BmoBubble";
+import MugBubble from "./MugBubble";
 
 export default function Experience() {
   const { modal, focusScreen } = useApp();
@@ -51,6 +53,8 @@ export default function Experience() {
       <Room envMap={envMap} screenRef={screenRef} />
       <Roses />
       <ScreenHtml />
+      <BmoBubble />
+      <MugBubble />
     </>
   );
 }
