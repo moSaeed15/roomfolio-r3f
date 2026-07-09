@@ -48,7 +48,8 @@ export default function ExploreHint() {
           Click around to explore — try{' '}
           <span className="font-semibold text-base-purple">My Work</span>,{' '}
           <span className="font-semibold text-base-purple">About</span>, or{' '}
-          <span className="font-semibold text-base-purple">Contact</span> on the wall
+          <span className="font-semibold text-base-purple">Contact</span> on the wall,
+          or click things in the scene!
         </span>
       </div>
     </div>
