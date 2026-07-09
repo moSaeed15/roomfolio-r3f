@@ -21,6 +21,7 @@ export default function App() {
   const [explored, setExplored] = useState(false);
   const [bmoGreeting, setBmoGreeting] = useState(-1);
   const [mugQuip, setMugQuip] = useState(-1);
+  const [quoteIndex, setQuoteIndex] = useState(0);
 
   const store = useMemo<AppStore>(
     () => ({
@@ -42,6 +43,8 @@ export default function App() {
       nextBmoGreeting: () => setBmoGreeting(i => i + 1),
       mugQuip,
       nextMugQuip: () => setMugQuip(i => i + 1),
+      quoteIndex,
+      nextQuote: () => setQuoteIndex(i => i + 1),
     }),
     [
       modal,
@@ -52,6 +55,7 @@ export default function App() {
       lightsOn,
       bmoGreeting,
       mugQuip,
+      quoteIndex,
     ],
   );
 

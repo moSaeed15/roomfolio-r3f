@@ -15,6 +15,9 @@ interface SetupArgs {
   onChairTop: (mesh: THREE.Object3D) => void;
   /** Set to the monitor mesh so the camera rig can frame it. */
   onScreen?: (mesh: THREE.Object3D) => void;
+  /** Called for each of the two quote-display meshes (desk + wall) so their
+   * textures can be cycled together on click. */
+  onQuote?: (mesh: THREE.Mesh) => void;
 }
 
 /**
@@ -34,6 +37,7 @@ export function setupRoomScene({
   introRefs,
   onChairTop,
   onScreen,
+  onQuote,
 }: SetupArgs) {
   if (scene.userData.roomSetupDone) return;
   scene.userData.roomSetupDone = true;
@@ -50,7 +54,12 @@ export function setupRoomScene({
       return;
     }
 
-    if (name.includes("Background")) {
+    // The desk quote card and the wall quote plane (the latter doubles as its
+    // own raycaster mesh — there's no separate visible mesh for it) both get
+    // their material set reactively in Room.tsx so it can be cycled on click.
+    if (name === "Quote" || name.includes("Quote_Raycaster_Hover")) {
+      onQuote?.(mesh);
+    } else if (name.includes("Background")) {
       mesh.material = new THREE.MeshBasicMaterial({ color: BACKGROUND_COLOR });
     } else {
       const key = textureKeyFor(name);

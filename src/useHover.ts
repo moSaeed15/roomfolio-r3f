@@ -71,7 +71,8 @@ export function useHoverHandlers() {
       obj.name === "Screen" ||
       obj.name.includes("Lamp") ||
       obj.name.includes("BMO") ||
-      obj.name.includes("Coffee_Mug");
+      obj.name.includes("Coffee_Mug") ||
+      obj.name.includes("Quote");
     document.body.style.cursor = clickable ? "pointer" : "default";
   };
 

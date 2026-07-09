@@ -36,6 +36,10 @@ export interface AppStore {
   /** Bumped each time the coffee mug is clicked (-1 = never). */
   mugQuip: number;
   nextMugQuip: () => void;
+
+  /** Which wall quote is showing, cycled by clicking it. */
+  quoteIndex: number;
+  nextQuote: () => void;
 }
 
 export const AppContext = createContext<AppStore | null>(null);

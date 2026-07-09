@@ -21,6 +21,7 @@ interface ClickHandlers {
   toggleLights: () => void;
   nextBmoGreeting: () => void;
   nextMugQuip: () => void;
+  nextQuote: () => void;
 }
 
 export function handleRoomClick(
@@ -31,6 +32,7 @@ export function handleRoomClick(
     toggleLights,
     nextBmoGreeting,
     nextMugQuip,
+    nextQuote,
   }: ClickHandlers,
 ) {
   const { name } = object;
@@ -65,6 +67,11 @@ export function handleRoomClick(
 
   if (name.includes("Coffee_Mug")) {
     nextMugQuip();
+    return;
+  }
+
+  if (name.includes("Quote")) {
+    nextQuote();
     return;
   }
 

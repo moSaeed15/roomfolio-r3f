@@ -10,7 +10,6 @@ export const TEXTURE_MAP = {
   Chair: "/textures/images/Chair.webp",
   Carpet: "/textures/room/TestCarpet.webp",
   Screen: "/textures/images/screen.webp",
-  Quote: "/textures/images/quote.webp",
   BMO: "/textures/images/BMO.webp",
   Wood: "/textures/room/WoodFinalDenoised.webp",
   Flower: "/textures/images/Flowers.webp",
@@ -22,6 +21,35 @@ export const TEXTURE_KEYS = Object.keys(TEXTURE_MAP) as TextureKey[];
 /** Match a mesh name to its texture key, or `undefined` if none applies. */
 export function textureKeyFor(name: string): TextureKey | undefined {
   return TEXTURE_KEYS.find((key) => name.includes(key));
+}
+
+/**
+ * Wall quote images, cycled on click (see `Quote_Raycaster_Hover` in the
+ * GLTF). Add more same-aspect-ratio images here to grow the rotation.
+ */
+export const QUOTE_IMAGES = [
+  "/textures/images/quote.webp",
+  "/textures/images/quote-1.webp",
+  "/textures/images/quote-2.webp",
+] as const;
+
+/** Load every quote image, configured to match the baked-lighting workflow. */
+export function useQuoteTextures(): THREE.Texture[] {
+  const loaded = useLoader(THREE.TextureLoader, [...QUOTE_IMAGES]);
+
+  return useMemo(
+    () =>
+      loaded.map((tex) => {
+        const clone = tex.clone();
+        clone.flipY = false;
+        clone.colorSpace = THREE.SRGBColorSpace;
+        clone.minFilter = THREE.LinearFilter;
+        clone.magFilter = THREE.LinearFilter;
+        clone.needsUpdate = true;
+        return clone;
+      }),
+    [loaded],
+  );
 }
 
 /**
