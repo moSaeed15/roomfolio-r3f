@@ -1,77 +1,46 @@
-# React + TypeScript + Vite
+# RoomFolio (R3F)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive 3D portfolio built as a clickable, explorable room — walk around a desk setup, click objects to trigger animations, open project/about/contact info, and fly the camera into the monitor to browse a slideshow of projects.
 
-Currently, two official plugins are available:
+This is a **migration of [moSaeed15/RoomFolio](https://github.com/moSaeed15/RoomFolio)** (the original vanilla Three.js version) to **React Three Fiber**, rebuilt with a component-driven scene graph, GSAP-driven animations, and a Tailwind UI layer.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Live at [mosaeed15.com](https://www.mosaeed15.com/).
 
-## React Compiler
+## Stack
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- [React Three Fiber](https://github.com/pmndrs/react-three-fiber) + [drei](https://github.com/pmndrs/drei) for the R3F scene
+- [Three.js](https://threejs.org/) with DRACO-compressed GLTF loading
+- [GSAP](https://gsap.com/) for intro, hover, and camera-flight animations
+- [Tailwind CSS v4](https://tailwindcss.com/) for the UI layer
+- [Vite](https://vite.dev/) + TypeScript
+- React Compiler (via `babel-plugin-react-compiler`)
 
-Note: This will impact Vite dev & build performances.
+## Features
 
-## Expanding the ESLint configuration
+- Baked-texture 3D room scene with intro reveal and hover animations
+- Clickable props: lamp (lights toggle), BMO and coffee mug (rotating speech bubbles), wall/desk quote signs (cycling quotes), social links, resume PDF
+- Clicking the monitor or the Portfolio icon flies the camera into a framed view of the screen and pins a project slideshow onto the monitor glass
+- About / Work / Contact modals
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+pnpm install
+pnpm dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Other scripts:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+pnpm build     # type-check and build for production
+pnpm lint      # run ESLint
+pnpm preview   # preview the production build locally
 ```
+
+## Project structure
+
+- `src/components/` — scene and UI components (`Room`, `CameraRig`, `ScreenHtml`, `Slideshow`, modals, speech bubbles, etc.)
+- `src/room/` — non-visual room logic: scene setup/material assignment (`setup.ts`), click/hover interactions (`interactions.ts`), textures, lights, and animations
+- `src/store.ts` — app state (modals, camera focus, lights, quote/greeting indices)
+- `public/models/` — DRACO-compressed GLTF room model
+- `public/textures/` — baked textures and quote images
