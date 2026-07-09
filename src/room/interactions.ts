@@ -42,9 +42,14 @@ export function handleRoomClick(
     }
   }
 
-  // Monitor and Portfolio icon both open the projects slideshow.
-  if (name === "Screen" || name.includes("Portfolio")) {
+  if (name === "Screen") {
     enterScreen();
+    return;
+  }
+
+  // Portfolio icon opens the resume PDF in a new tab.
+  if (name.includes("Portfolio")) {
+    openExternal("/Mohammed_ElSaeed.pdf");
     return;
   }
 

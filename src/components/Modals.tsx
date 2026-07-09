@@ -108,27 +108,38 @@ function AboutBody() {
 
 function WorkBody() {
   return (
-    <ol className="flex flex-col gap-5 border-l-2 border-base-purple/25 pl-5">
-      {EXPERIENCE.map((job) => (
-        <li key={`${job.role}-${job.period}`} className="relative">
-          {/* Timeline node */}
-          <span className="absolute -left-6.5 top-1.5 h-3 w-3 rounded-full border-2 border-base-purple bg-modal-bg" />
+    <div>
+      <ol className="flex flex-col gap-5 border-l-2 border-base-purple/25 pl-5">
+        {EXPERIENCE.map((job) => (
+          <li key={`${job.role}-${job.period}`} className="relative">
+            {/* Timeline node */}
+            <span className="absolute -left-6.5 top-1.5 h-3 w-3 rounded-full border-2 border-base-purple bg-modal-bg" />
 
-          <h2 className="text-xl text-base-black">
-            {job.role}
-            {job.company && (
-              <span className="text-base-purple"> — {job.company}</span>
-            )}
-          </h2>
-          <p className="mt-0.5 text-sm text-base-purple">
-            {job.period} · {job.location}
-          </p>
-          <p className="mt-2 text-[15px] leading-relaxed text-base-black/80">
-            {job.description}
-          </p>
-        </li>
-      ))}
-    </ol>
+            <h2 className="text-xl text-base-black">
+              {job.role}
+              {job.company && (
+                <span className="text-base-purple"> — {job.company}</span>
+              )}
+            </h2>
+            <p className="mt-0.5 text-sm text-base-purple">
+              {job.period} · {job.location}
+            </p>
+            <p className="mt-2 text-[15px] leading-relaxed text-base-black/80">
+              {job.description}
+            </p>
+          </li>
+        ))}
+      </ol>
+
+      <a
+        href="/Mohammed_ElSaeed.pdf"
+        target="_blank"
+        rel="noreferrer noopener"
+        className="mt-6 inline-flex items-center gap-2 rounded-full bg-base-purple px-5 py-2.5 text-sm text-base-white transition-colors hover:bg-base-purple/90"
+      >
+        View Resume (PDF)
+      </a>
+    </div>
   );
 }
 
