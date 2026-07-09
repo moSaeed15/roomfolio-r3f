@@ -3,7 +3,7 @@ import { useApp } from '../store';
 import { cn } from '../cn';
 
 /** How long after reveal the hint waits before fading in. */
-const APPEAR_DELAY_MS = 1500;
+const APPEAR_DELAY_MS = 1000;
 /** How long the hint stays if the user never clicks anything. */
 const AUTO_HIDE_MS = 8000;
 
@@ -48,8 +48,8 @@ export default function ExploreHint() {
           Click around to explore — try{' '}
           <span className="font-semibold text-base-purple">My Work</span>,{' '}
           <span className="font-semibold text-base-purple">About</span>, or{' '}
-          <span className="font-semibold text-base-purple">Contact</span> on the wall,
-          or click things in the scene!
+          <span className="font-semibold text-base-purple">Contact</span> on the
+          wall, or click things in the scene!
         </span>
       </div>
     </div>
