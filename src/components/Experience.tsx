@@ -1,16 +1,16 @@
-import { useLayoutEffect, useRef, type ElementRef } from "react";
-import { useThree, useLoader } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import * as THREE from "three";
-import { useApp } from "../store";
-import { fitFactor } from "../useResponsiveView";
-import Room from "./Room";
-import Roses from "./Roses";
-import CameraRig from "./CameraRig";
-import ScreenHtml from "./ScreenHtml";
-import BmoBubble from "./BmoBubble";
-import MugBubble from "./MugBubble";
-import CoffeeSteam from "./CoffeeSteam";
+import { useLayoutEffect, useRef, type ComponentRef } from 'react';
+import { useThree, useLoader } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
+import * as THREE from 'three';
+import { useApp } from '../store';
+import { fitFactor } from '../useResponsiveView';
+import Room from './Room';
+import Roses from './Roses';
+import CameraRig from './CameraRig';
+import ScreenHtml from './ScreenHtml';
+import BmoBubble from './BmoBubble';
+import MugBubble from './MugBubble';
+import CoffeeSteam from './CoffeeSteam';
 
 // The camera position authored for a wide desktop viewport, and the orbit
 // target it looks at. On narrow / portrait screens we push the camera out
@@ -18,25 +18,26 @@ import CoffeeSteam from "./CoffeeSteam";
 const HOME_TARGET = new THREE.Vector3(-0.19, 1.1, 0.0173);
 const HOME_POSITION = new THREE.Vector3(2.8, 4.3, 2);
 
-// The My Work / About / Contact signs live high on the +z side of the room
-// (world ~z 1.39, y up to 1.95). On a narrow / portrait viewport the tighter
+// On a narrow / portrait viewport the tighter
 // horizontal frame clips them, so we pan the look-at toward them a touch.
 const SIGN_ANCHOR = new THREE.Vector3(-0.19, 1.45, 0.9);
 
 export default function Experience() {
   const { modal, focusScreen } = useApp();
-  const store = useThree((s) => s.get);
-  const size = useThree((s) => s.size);
-  const controlsRef = useRef<ElementRef<typeof OrbitControls>>(null);
+  const store = useThree(s => s.get);
+  const width = useThree(s => s.size.width);
+  const height = useThree(s => s.size.height);
+  const controlsRef = useRef<ComponentRef<typeof OrbitControls>>(null);
   const screenRef = useRef<THREE.Object3D | null>(null);
 
-  // Fit the initial room framing to the viewport aspect. Runs on mount and on
-  // resize/orientation change, but only while the user is at the home view
-  // (not flown into the monitor and not orbiting a modal open).
+  // Fit the initial room framing to the viewport aspect. Depends on the
+  // primitive width/height (not the `size` object) so it only reruns on an
+  // actual dimension change — otherwise any unrelated re-render that hands
+  // back a new `size` reference (e.g. a drei <Html> mounting) would stomp on
+  // wherever the user has orbited the camera.
   useLayoutEffect(() => {
     if (focusScreen) return;
-    const factor = fitFactor(size.width / size.height);
-    // How portrait we are, 0 (wide) .. 1 (very tall). Reuses fitFactor's ramp.
+    const factor = fitFactor(width / height);
     const portrait = THREE.MathUtils.clamp((factor - 1) / 0.55, 0, 1);
 
     // Pan the look-at toward the wall signs as the screen gets more portrait,
@@ -57,17 +58,17 @@ export default function Experience() {
       controls.target.copy(target);
       controls.update();
     }
-  }, [store, size, focusScreen]);
+  }, [store, width, height, focusScreen]);
 
   // Skybox cube map, also used as the scene environment.
   const envMap = useLoader(THREE.CubeTextureLoader, [
     [
-      "/textures/skybox/px.webp",
-      "/textures/skybox/nx.webp",
-      "/textures/skybox/py.webp",
-      "/textures/skybox/ny.webp",
-      "/textures/skybox/pz.webp",
-      "/textures/skybox/nz.webp",
+      '/textures/skybox/px.webp',
+      '/textures/skybox/nx.webp',
+      '/textures/skybox/py.webp',
+      '/textures/skybox/ny.webp',
+      '/textures/skybox/pz.webp',
+      '/textures/skybox/nz.webp',
     ],
   ])[0];
 
@@ -84,7 +85,7 @@ export default function Experience() {
         enabled={!modal && !focusScreen}
         enableDamping
         dampingFactor={0.05}
-        minDistance={2}
+        minDistance={1}
         maxDistance={10}
         minPolarAngle={0}
         maxPolarAngle={Math.PI / 2}
