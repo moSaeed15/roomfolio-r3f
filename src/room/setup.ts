@@ -1,9 +1,9 @@
-import * as THREE from "three";
-import { initHoverUserData } from "../useHover";
-import { textureKeyFor, type TextureKey } from "./textures";
-import { introKeyFor, type IntroRefs } from "./animations";
+import * as THREE from 'three';
+import { initHoverUserData } from '../useHover';
+import { textureKeyFor, type TextureKey } from './textures';
+import { introKeyFor, type IntroRefs } from './animations';
 
-const BACKGROUND_COLOR = "hsl(274, 17%, 92%)";
+const BACKGROUND_COLOR = 'hsl(274, 17%, 92%)';
 
 interface SetupArgs {
   scene: THREE.Object3D;
@@ -24,11 +24,7 @@ interface SetupArgs {
  * Walk the loaded GLTF once: assign baked textures / glass / background
  * materials, apply the small scale tweaks, tag hover meshes, and collect the
  * refs the animations need.
- *
- * This is destructive and NOT idempotent — the scale multipliers compound and
- * the intro zeroing would corrupt the captured hover scale on a second pass.
- * A flag on the scene makes re-runs (e.g. when a memoized dep changes identity)
- * a no-op, so hover always sees the true initial scale.
+
  */
 export function setupRoomScene({
   scene,
@@ -42,41 +38,46 @@ export function setupRoomScene({
   if (scene.userData.roomSetupDone) return;
   scene.userData.roomSetupDone = true;
 
-  scene.traverse((child) => {
+  scene.traverse(child => {
     const mesh = child as THREE.Mesh;
     if (!mesh.isMesh) return;
     const { name } = mesh;
 
-    if (name === "Screen") onScreen?.(mesh);
+    if (name === 'Screen') onScreen?.(mesh);
 
-    if (name.includes("Glass")) {
+    if (name.includes('Glass')) {
       mesh.material = glassMaterial;
       return;
     }
 
     // The desk quote card and the wall quote plane (the latter doubles as its
     // own raycaster mesh — there's no separate visible mesh for it) both get
-    // their material set reactively in Room.tsx so it can be cycled on click.
-    if (name === "Quote" || name.includes("Quote_Raycaster_Hover")) {
+    // their material set reactively (see QuoteTextures) so it can be cycled on
+    // click. They start out on a plain placeholder material so the quote
+    // images — only ever seen after a click — don't have to load before the
+    // rest of the room does.
+    if (name === 'Quote' || name.includes('Quote_Raycaster_Hover')) {
+      mesh.material = new THREE.MeshBasicMaterial({ color: BACKGROUND_COLOR });
       onQuote?.(mesh);
-    } else if (name.includes("Background")) {
+    } else if (name.includes('Background')) {
       mesh.material = new THREE.MeshBasicMaterial({ color: BACKGROUND_COLOR });
     } else {
       const key = textureKeyFor(name);
-      if (key) mesh.material = new THREE.MeshBasicMaterial({ map: textures[key] });
+      if (key)
+        mesh.material = new THREE.MeshBasicMaterial({ map: textures[key] });
     }
 
-    if (name.includes("Carpet")) mesh.scale.x *= 1.1;
+    if (name.includes('Carpet')) mesh.scale.x *= 1.1;
 
-    if (name.includes("ChairTop")) {
+    if (name.includes('ChairTop')) {
       mesh.userData.initialRotation = new THREE.Euler().copy(mesh.rotation);
       onChairTop(mesh);
-    } else if (name.includes("Chair")) {
+    } else if (name.includes('Chair')) {
       mesh.scale.x *= 1.1;
       mesh.scale.z *= 1.1;
     }
 
-    if (name.includes("Hover")) initHoverUserData(mesh);
+    if (name.includes('Hover')) initHoverUserData(mesh);
 
     const introKey = introKeyFor(name);
     if (introKey) {
