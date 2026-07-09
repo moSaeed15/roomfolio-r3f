@@ -45,10 +45,10 @@ export default function ExploreHint() {
       <div className="flex items-center gap-2 rounded-full border border-base-purple/40 bg-modal-bg/90 px-4 py-2 text-sm text-base-black shadow-[0_4px_16px_rgba(0,0,0,0.2)] backdrop-blur max-md:text-xs">
         <span className="animate-pulse">👆</span>
         <span>
-          Click around to explore — try the{' '}
-          <span className="font-semibold text-base-purple">lamp</span>,{' '}
-          <span className="font-semibold text-base-purple">computer</span>, or{' '}
-          <span className="font-semibold text-base-purple">BMO</span>
+          Click around to explore — try{' '}
+          <span className="font-semibold text-base-purple">My Work</span>,{' '}
+          <span className="font-semibold text-base-purple">About</span>, or{' '}
+          <span className="font-semibold text-base-purple">Contact</span> on the wall
         </span>
       </div>
     </div>
